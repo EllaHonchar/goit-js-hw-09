@@ -27,10 +27,9 @@ const options = {
     }
   },
 };
-console.log(inputDate)
+//console.log(inputDate)
 //console.log(options.defaultDate())
 flatpickr(inputDate, options);
-
 
 function convertMs(ms) {
     // Number of milliseconds per unit of time
@@ -50,4 +49,26 @@ function convertMs(ms) {
   
     return { days, hours, minutes, seconds };
   }
+
+  function addLeadingZero(value) {
+    return String(value).padStart(2, 0);
+}
+
+startBtn.addEventListener('click', () => {
+    const timer = setInterval(() => {
+      const diff = new Date(inputDate.value) - new Date();
+     
+      startBtn.disabled = true;
+      if (diff >= 0) {
+        const timeDown = convertMs(diff);
+        days.textContent = addLeadingZero(timeDown.days);
+        hours.textContent = addLeadingZero(timeDown.hours);
+        minutes.textContent = addLeadingZero(timeDown.minutes);
+        seconds.textContent = addLeadingZero(timeDown.seconds);
+      } else {
+        Notify.success('Sale Day Starts Now');
+        clearInterval(timer);
+      }
+    }, 1000);
+  });
   
